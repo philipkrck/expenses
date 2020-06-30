@@ -3,12 +3,42 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" type="text/css"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/> </head>
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+</head>
 <body>
 <div class="container">
     <div class="mt-4">
         <h1>Starting point</h1>
     </div>
+
+    <table class="table">
+        <tr>
+            <th>spent by</th>
+            <th>amount</th>
+            <th>description</th>
+            <th>spent for</th>
+        </tr>
+        <tr>
+            <td>Philip</td>
+            <td>10€</td>
+            <td>Essen</td>
+            <td>Olli, Malte</td>
+        </tr>
+    </table>
+
+    <div>
+        <p><strong th:text="${'Philip bekommt 10,00'}"></strong></p>
+        <p></p><strong th:text="${'Olli schuldet 5,00'}"></strong></p>
+    </div>
+
+    <h2>New Entry</h2>
+    <form action="/newJournal" method="post" class="form-inline">
+        <input name="debitor" type="text" placeholder="spent by" class="form-control">
+        <input name="amount" type="text" placeholder="amount" class="form-control">
+        <input name="description" type="text" placeholder="spent by" class="form-control">
+        <input name="creditors" type="text" placeholder="creditors" class="form-control">
+        <button type="submit"class="btn btn-primary">Add</button>
+    </form>
 </div>
 </body>
 </html>
