@@ -13,10 +13,10 @@
 
     <table class="table">
         <tr>
-            <th>spent by</th>
+            <th>creditor</th>
             <th>amount</th>
             <th>description</th>
-            <th>spent for</th>
+            <th>debitors</th>
         </tr>
         <tr>
             <td>Philip</td>
@@ -33,10 +33,10 @@
 
     <h2>New Entry</h2>
     <form action="/newJournal" method="post" class="form-inline">
-        <input name="debitor" type="text" placeholder="spent by" class="form-control">
+        <input name="creditor" type="text" placeholder="creditor" class="form-control">
         <input name="amount" type="text" placeholder="amount" class="form-control">
-        <input name="description" type="text" placeholder="spent by" class="form-control">
-        <input name="creditors" type="text" placeholder="creditors" class="form-control">
+        <input name="description" type="text" placeholder="description" class="form-control">
+        <input name="debitors" type="text" placeholder="debitors" class="form-control">
         <button type="submit"class="btn btn-primary">Add</button>
     </form>
 </div>
