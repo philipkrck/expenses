@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -30,5 +31,9 @@ public class JournalEntry {
             debitors = new HashSet<>();
         }
         return debitors;
+    }
+
+    public String debitorNames() {
+        return getDebitors().stream().sorted().collect(Collectors.joining(", "));
     }
 }

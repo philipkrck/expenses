@@ -8,31 +8,36 @@
 <body>
 <div class="container">
     <div class="mt-4">
-        <h1>Starting point</h1>
+        <h1>Summer Party</h1>
     </div>
 
-    <table class="table">
+    <table th:if="${journal != null and !journal.entries.empty}" class="table">
         <tr>
             <th>creditor</th>
             <th>amount</th>
             <th>description</th>
             <th>debitors</th>
         </tr>
-        <tr>
-            <td>Philip</td>
-            <td>10€</td>
-            <td>Essen</td>
-            <td>Olli, Malte</td>
+        <tr th:each="entry : ${journal.entries}">
+            <td th:text="${entry.creditor}"></td>
+            <td th:text="${#numbers.formatDecimal(entry.amount, 1, 2)}"></td>
+            <td th:text="${entry.description}">Essen</td>
+            <td th:text="${entry.debitorNames()}"></td>
         </tr>
     </table>
 
-    <div>
-        <p><strong th:text="${'Philip bekommt 10,00'}"></strong></p>
-        <p></p><strong th:text="${'Olli schuldet 5,00'}"></strong></p>
+    <div th:if="${journal != null}">
+        <div th:each="balance : ${journal.computeBalance().entrySet()}">
+            <strong th:if="${balance.value &gt; 0}"
+                    th:text="${balance.key + ' gets ' + #numbers.formatDecimal(balance.value, 1, 2)}"></strong>
+            <strong th:if="${balance.value &lt; 0}"
+                    th:text="${balance.key + ' ows ' + #numbers.formatDecimal(-balance.value, 1, 2)}"></strong>
+        </div>
+
     </div>
 
     <h2>New Entry</h2>
-    <form action="/newJournal" method="post" class="form-inline">
+    <form action="/add" method="post" class="form-inline">
         <input name="creditor" type="text" placeholder="creditor" class="form-control">
         <input name="amount" type="text" placeholder="amount" class="form-control">
         <input name="description" type="text" placeholder="description" class="form-control">

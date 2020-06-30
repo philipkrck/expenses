@@ -11,6 +11,7 @@ public class Journal {
     public Journal() {
         entries = new ArrayList<>();
         entries.add(new JournalEntry(new BigDecimal(10), "Philip", "Essen", Set.of("Malte", "Olli")));
+        entries.add(new JournalEntry(new BigDecimal(4), "Malte", "Essen", Set.of("Philip", "Olli")));
     }
 
     public List<JournalEntry> getEntries() {
@@ -18,6 +19,10 @@ public class Journal {
             entries = new ArrayList<>();
         }
         return entries;
+    }
+
+    public void addEntry(JournalEntry entry) {
+        entries.add(entry);
     }
 
     public Map<String, BigDecimal> computeBalance() {
