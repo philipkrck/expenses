@@ -10,19 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.print.DocFlavor;
 
 @Controller
+@RequestMapping("/")
 public class IndexController {
-    Journal journal = new Journal();
 
-    @GetMapping("/")
-    public String showUser(Model model) {
-        model.addAttribute("journal", journal);
-        return "index";
+    @GetMapping
+    public String index() {
+        return "redirect:/journals/";
     }
-
-    @PostMapping("/add")
-    public String addEntry(@ModelAttribute JournalEntry journalEntry) {
-        journal.addEntry(journalEntry);
-        return "redirect:/";
-    }
-
 }

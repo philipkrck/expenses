@@ -1,17 +1,27 @@
 package de.pomc.expenses.journal;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+@NoArgsConstructor
 public class Journal {
+
+    @Getter
+    public Long id;
+
+    public String name;
+
     private List<JournalEntry> entries;
 
-    // creating some dummy data
-    public Journal() {
-        entries = new ArrayList<>();
-        entries.add(new JournalEntry(new BigDecimal(10), "Philip", "Essen", Set.of("Malte", "Olli")));
-        entries.add(new JournalEntry(new BigDecimal(4), "Malte", "Essen", Set.of("Philip", "Olli")));
+    public Journal(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.entries = new ArrayList<>();
     }
 
     public List<JournalEntry> getEntries() {

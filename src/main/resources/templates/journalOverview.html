@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div class="my-4">
+        <h1>Journals</h1>
+    </div>
+
+    <ul class="list-unstyled">
+        <li th:each="journal : ${journals}">
+            <a th:href="@{/journals/{id}(id=${journal.id})}" th:text="${journal.name}"></a>
+        </li>
+    </ul>
+
+</body>
+</html>
