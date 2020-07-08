@@ -23,9 +23,15 @@ public class JournalShowController {
     }
 
     @PostMapping(path = "/add")
-    public String addEntry(Model model, @PathVariable Long id, @ModelAttribute("journalEntryForm") JournalEntryForm journalEntryForm) {
+    public String addEntry(@PathVariable Long id, @ModelAttribute("journalEntryForm") JournalEntryForm journalEntryForm) {
         JournalEntry journalEntry = JournalFormConverter.shared.journalEntry(journalEntryForm);
         journalService.addJournalEntry(id, journalEntry);
         return "redirect:/journals/" + id;
+    }
+
+    @PostMapping(path = "/delete")
+    public String deleteEntry(Model model, @PathVariable Long id) {
+        journalService.deleteById(id);
+        return "redirect:/journals/";
     }
 }

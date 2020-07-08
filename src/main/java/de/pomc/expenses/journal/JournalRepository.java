@@ -33,4 +33,10 @@ public class JournalRepository {
     public Collection<Journal> findAll() {
         return journals.values();
     }
+
+    public void deleteById(Long id) {
+        if (journals.containsKey(id)) {
+            journals.remove(id);
+        }
+    }
 }

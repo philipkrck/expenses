@@ -9,6 +9,12 @@
 <div class="container">
     <div class="mt-4">
         <h1 th:if="${journal != null}" th:text="${journal.name}"></h1>
+
+        <form class="form"
+              method="post"
+              th:action="@{/journals/{id}/delete(id=${journal.id})}">
+            <button class="btn btn-danger" type="submit">delete journal</button>
+        </form>
     </div>
 
     <table th:if="${journal != null and !journal.entries.empty}" class="table">
