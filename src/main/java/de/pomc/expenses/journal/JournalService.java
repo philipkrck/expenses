@@ -12,11 +12,15 @@ import java.util.*;
 @RequiredArgsConstructor
 public class JournalService {
 
-    private JournalRepository repository;
+    private final JournalRepository repository;
 
     @EventListener(ApplicationStartedEvent.class)
     public void init() {
-        repository = new JournalRepository();
+
+        // add journal for testing
+        Journal journal = new Journal("Summer party");
+        addJournalEntry(journal, new JournalEntry(new BigDecimal(19), "Drinks", "Olli", Set.of("Philip, Malte")));
+        repository.save(journal);
     }
 
     public Journal getJournal(Long id) {
@@ -30,8 +34,14 @@ public class JournalService {
     public void addJournalEntry(Long journalID, JournalEntry entry) {
         Journal journal = getJournal(journalID);
         if (journal != null) {
-            journal.addEntry(entry);
+            addJournalEntry(journal, entry);
         }
+    }
+
+    public void addJournalEntry(Journal journal, JournalEntry entry) {
+        entry.setJournal(journal);
+        journal.addEntry(entry);
+        repository.save(journal);
     }
 
     public void deleteById(Long id) { repository.deleteById(id); }

@@ -3,23 +3,32 @@ package de.pomc.expenses.journal;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
 @NoArgsConstructor
+@Entity
 public class Journal {
 
     @Getter
+    @Id
+    @GeneratedValue
     public Long id;
 
+    @Basic(optional = false)
+    @Getter
+    @Setter
     public String name;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journal")
+    @OrderBy
     private List<JournalEntry> entries;
 
-    public Journal(Long id, String name) {
-        this.id = id;
+    public Journal(String name) {
         this.name = name;
         this.entries = new ArrayList<>();
     }
