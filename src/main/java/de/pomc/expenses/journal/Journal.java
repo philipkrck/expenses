@@ -24,7 +24,7 @@ public class Journal {
     @Setter
     public String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journal")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "journal")
     @OrderBy
     private List<JournalEntry> entries;
 
