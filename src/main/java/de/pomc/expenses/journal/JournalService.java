@@ -13,6 +13,7 @@ import java.util.*;
 public class JournalService {
 
     private final JournalRepository repository;
+    private final JournalEntryRepository entryRepository;
 
     @EventListener(ApplicationStartedEvent.class)
     public void init() {
@@ -44,10 +45,12 @@ public class JournalService {
         repository.save(journal);
     }
 
+    public JournalEntry findEntry(Long id) { return entryRepository.findById(id).orElse(null); }
+
     public void deleteById(Long id) { repository.deleteById(id); }
 
     public Collection<Journal> findJournals(String search) {
-        // ToDo: use repository later
+        // ToDo: implement search later
         return repository.findAll();
     }
 }
