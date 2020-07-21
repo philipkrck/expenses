@@ -1,5 +1,6 @@
 package de.pomc.expenses.journal;
 
+import de.pomc.expenses.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,22 +29,22 @@ public class JournalEntry {
     @Basic(optional = false)
     private BigDecimal amount;
 
-    @Basic(optional = false)
-    private String creditor;
+    @ManyToOne(optional = false)
+    private User creditor;
 
     private String description;
 
-    @Transient
-    private Set<String> debitors;
+    @ManyToMany
+    private Set<User> debitors;
 
-    public JournalEntry(BigDecimal amount, String creditor, String description, Set<String> debitors) {
+    public JournalEntry(BigDecimal amount, User creditor, String description, Set<User> debitors) {
         this.amount = amount;
         this.creditor = creditor;
         this.description = description;
         this.debitors = debitors;
     }
 
-    public Set<String> getDebitors() {
+    public Set<User> getDebitors() {
         if (debitors == null){
             debitors = new HashSet<>();
         }
@@ -51,6 +52,6 @@ public class JournalEntry {
     }
 
     public String debitorNames() {
-        return getDebitors().stream().sorted().collect(Collectors.joining(", "));
+        return getDebitors().stream().sorted().map(User::getName).collect(Collectors.joining(", "));
     }
 }

@@ -6,7 +6,7 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container">
+<div class="container" th:object="${journal}">
     <div class="mt-4">
         <h1 th:if="${journal != null}" th:text="${journal.name}"></h1>
 
@@ -19,36 +19,67 @@
 
     <table th:if="${journal != null and !journal.entries.empty}" class="table">
         <tr>
-            <th>creditor</th>
-            <th>amount</th>
-            <th>description</th>
-            <th>debitors</th>
+            <th>ausgegeben von</th>
+            <th>Betrag</th>
+            <th>Beschreibung</th>
+            <th>ausgegeben für</th>
+            <th></th>
         </tr>
         <tr th:each="entry : ${journal.entries}">
             <td th:text="${entry.creditor}"></td>
             <td th:text="${#numbers.formatDecimal(entry.amount, 1, 2)}"></td>
-            <td th:text="${entry.description}">Essen</td>
+            <td th:text="${entry.description}"></td>
             <td th:text="${entry.debitorNames()}"></td>
         </tr>
     </table>
 
-    <div th:if="@{journal != null}">
+    <div th:if="${journal != null}">
         <div th:each="balance : ${journal.computeBalance().entrySet()}">
             <strong th:if="${balance.value &gt; 0}"
                     th:text="${balance.key + ' gets ' + #numbers.formatDecimal(balance.value, 1, 2)}"></strong>
             <strong th:if="${balance.value &lt; 0}"
                     th:text="${balance.key + ' ows ' + #numbers.formatDecimal(-balance.value, 1, 2)}"></strong>
         </div>
-
     </div>
 
     <h2>New Entry</h2>
-    <form th:action="@{/journals/{id}/add(id=${journal.id})}" method="post" class="form-inline">
-        <input name="creditor" type="text" placeholder="creditor" class="form-control">
-        <input name="amount" type="text" placeholder="amount" class="form-control">
-        <input name="description" type="text" placeholder="description" class="form-control">
-        <input name="debitors" type="text" placeholder="debitors" class="form-control">
-        <button type="submit"class="btn btn-primary">Add</button>
+    <form th:action="@{/journals/{id}/add(id=${journal.id})}" method="post" th:object="${journalEntryForm}">
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-sm-2">spent by</label>
+            <div class="col-sm-10">
+                <select class="form-control form-control-sm" th:field="*{creditor}">
+                    <option value="">choose...</option>
+                    <option th:each="user : ${users}" th:text="${user.name}" th:value="${user.id}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-sm-2">Amount</label>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" th:field="*{amount}" type="number"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-sm-2">Description</label>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" th:field="*{description}"
+                       type="text"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-form-label-sm col-sm-2">spent for</label>
+            <div class="col-sm-10">
+                <select class="form-control form-control-sm" multiple="multiple" th:field="*{debitors}">
+                    <option th:each="user : ${users}" th:text="${user.name}" th:value="${user.id}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button class="btn btn-primary btn-sm" type="submit">Create Entry</button>
+            </div>
+        </div>
     </form>
 </div>
 </body>
