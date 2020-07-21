@@ -1,5 +1,6 @@
 package de.pomc.expenses.web.journal;
 
+import de.pomc.expenses.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,15 +12,15 @@ import java.util.Set;
 @Setter
 public class JournalEntryForm {
 
-    private String creditor;
+    private User creditor;
 
     private String description;
 
     private BigDecimal amount;
 
-    private Set<String> debitors;
+    private Set<User> debitors;
 
-    public Set<String> getDebitors() {
+    public Set<User> getDebitors() {
         if (debitors == null) {
             debitors = new HashSet<>();
         }
