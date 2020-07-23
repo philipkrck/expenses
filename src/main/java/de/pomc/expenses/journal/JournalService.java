@@ -62,7 +62,6 @@ public class JournalService {
     public void deleteById(Long id) { repository.deleteById(id); }
 
     public Collection<Journal> findJournals(String search) {
-        // ToDo: implement search later
-        return repository.findAll();
+        return search.isBlank() ? repository.findAll() : repository.findJournalsContainingSearch(search);
     }
 }

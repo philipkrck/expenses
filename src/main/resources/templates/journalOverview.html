@@ -11,5 +11,14 @@
         </li>
     </ul>
 
+    <form class="form-row mb-2" method="get" th:action="@{/journals}">
+        <div class="form-group col-md-3">
+            <input class="form-control mr-2" name="search" placeholder="Find journals with description..." th:value="${search}" type="text"/>
+        </div>
+        <div class="form-group col-md-1">
+            <button class="btn btn-light" type="submit">Search</button>
+        </div>
+    </form>
+
 </body>
 </html>

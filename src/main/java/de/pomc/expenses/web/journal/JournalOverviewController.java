@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
@@ -18,9 +19,8 @@ public class JournalOverviewController {
     private final JournalService journalService;
 
     @GetMapping
-    public String journals(Model model) {
-        Collection<Journal> journals = journalService.findJournals("");
-        model.addAttribute("journals", journals);
+    public String journals(Model model, @RequestParam(name = "search", required = false, defaultValue = "") String search) {
+        model.addAttribute("journals", journalService.findJournals(search));
         return "journalOverview";
     }
 }
