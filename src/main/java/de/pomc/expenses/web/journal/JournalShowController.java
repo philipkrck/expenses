@@ -5,6 +5,7 @@ import de.pomc.expenses.journal.JournalEntry;
 import de.pomc.expenses.journal.JournalService;
 import de.pomc.expenses.user.User;
 import de.pomc.expenses.user.UserService;
+import de.pomc.expenses.web.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +28,12 @@ public class JournalShowController {
     public List<User> getUsers() { return  userService.findAll(); }
 
     @GetMapping()
-    public String showJournal(@PathVariable("id") Long id, Model model) {
+    public String showJournal(@PathVariable("id") Long id, Model model) throws NotFoundException {
         Journal journal = journalService.getJournal(id);
+
+        if (journal == null) {
+            throw new NotFoundException();
+        }
 
         for (JournalEntry entry: journal.getEntries()) {
             String names = entry.debitorNames();
