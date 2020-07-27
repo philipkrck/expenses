@@ -57,6 +57,10 @@ public class JournalService {
         journal.addEntry(entry);
     }
 
+    public void save(Journal journal) {
+        repository.save(journal);
+    }
+
     public JournalEntry findEntry(Long id) { return entryRepository.findById(id).orElse(null); }
 
     public void deleteById(Long id) { repository.deleteById(id); }

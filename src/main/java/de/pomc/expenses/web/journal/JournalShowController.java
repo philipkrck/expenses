@@ -9,8 +9,10 @@ import de.pomc.expenses.web.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -27,26 +29,40 @@ public class JournalShowController {
     @ModelAttribute("users")
     public List<User> getUsers() { return  userService.findAll(); }
 
-    @GetMapping()
-    public String showJournal(@PathVariable("id") Long id, Model model) throws NotFoundException {
+    @ModelAttribute("journal")
+    public Journal getJournal(@PathVariable("id") Long id) {
         Journal journal = journalService.getJournal(id);
-
         if (journal == null) {
             throw new NotFoundException();
         }
+        return journal;
+    }
 
-        for (JournalEntry entry: journal.getEntries()) {
-            String names = entry.debitorNames();
-            System.out.println(names);
-        }
-
-        model.addAttribute("journal", journal);
+    @GetMapping()
+    public String showJournal(@PathVariable("id") Long id, Model model) throws NotFoundException {
+        model.addAttribute("journalForm", new JournalForm(getJournal(id)));
         model.addAttribute("journalEntryForm", new JournalEntryForm());
         return "showJournal";
     }
 
+    @PostMapping
+    public String changeName(Model model, @PathVariable("id") Long id, @ModelAttribute("journalForm") @Valid JournalForm journalForm,
+                             BindingResult bindingResult) {
+        Journal journal = getJournal(id);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("journalEntryForm", new JournalEntryForm());
+            return "showJournal";
+        }
+        journal.name = journalForm.getName();
+
+        journalService.save(journal);
+
+        return "redirect:/journals/" + id;
+    }
+
     @PostMapping(path = "/add")
-    public String addEntry(@PathVariable Long id, @ModelAttribute("journalEntryForm") JournalEntryForm journalEntryForm) {
+    public String addEntry(Model model, @PathVariable Long id, @ModelAttribute("journalEntryForm") JournalEntryForm journalEntryForm) {
         JournalEntry journalEntry = JournalFormConverter.shared.journalEntry(journalEntryForm);
         journalService.addJournalEntry(id, journalEntry);
         return "redirect:/journals/" + id;
@@ -57,4 +73,5 @@ public class JournalShowController {
         journalService.deleteById(id);
         return "redirect:/journals/";
     }
+
 }

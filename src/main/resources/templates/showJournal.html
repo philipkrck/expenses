@@ -15,6 +15,16 @@
               th:action="@{/journals/{id}/delete(id=${journal.id})}">
             <button class="btn btn-danger" type="submit">delete journal</button>
         </form>
+
+        <form th:action="${'/journals/' + journal.id}" method="post" th:object="${journalForm}">
+            <div class="form-group">
+                <label>New name</label>
+                <input type="text" class="form-control" th:field="*{name}"
+                       th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}"/> <span class="text-danger" th:errors="*{name}"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Rename</button>
+        </form>
+
     </div>
 
     <table th:if="${journal != null and !journal.entries.empty}" class="table">
