@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -14,18 +16,17 @@ import java.util.Set;
 @Setter
 public class JournalEntryForm {
 
+    @NotNull(message = "Please select a creditor.")
     private User creditor;
 
-    @Size.List({
-        @Size(min = 3, message = "Please enter at least 3 characters."),
-        @Size(max = 255, message = "Please enter at most 255 characters.")
-    })
+    @NotBlank(message = "Please enter a description.")
     private String description;
 
-    @Size(min = 0, message = "Please enter only numbers greater than zero.")
-    @Digits(integer = Integer.MAX_VALUE, fraction = 2, message = "some message")
+    @NotNull(message = "Please enter an amount.")
     private BigDecimal amount;
 
+    @NotNull(message = "Please select at least one debitor.")
+    @Size(min = 1, message = "Please pick at least one debitor.")
     private Set<User> debitors;
 
     public Set<User> getDebitors() {

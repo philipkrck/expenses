@@ -55,14 +55,19 @@ public class JournalShowController {
             return "showJournal";
         }
         journal.name = journalForm.getName();
-
         journalService.save(journal);
 
         return "redirect:/journals/" + id;
     }
 
     @PostMapping(path = "/add")
-    public String addEntry(Model model, @PathVariable Long id, @ModelAttribute("journalEntryForm") JournalEntryForm journalEntryForm) {
+    public String addEntry(Model model, @PathVariable Long id, @ModelAttribute("journalEntryForm") @Valid JournalEntryForm journalEntryForm,
+                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("journalForm", new JournalForm(getJournal(id)));
+            return "showJournal";
+        }
+
         JournalEntry journalEntry = JournalFormConverter.shared.journalEntry(journalEntryForm);
         journalService.addJournalEntry(id, journalEntry);
         return "redirect:/journals/" + id;
