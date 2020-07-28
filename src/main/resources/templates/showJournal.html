@@ -40,6 +40,7 @@
             <td th:text="${#numbers.formatDecimal(entry.amount, 1, 2)}"></td>
             <td th:text="${entry.description}"></td>
             <td th:text="${entry.debitorNames()}"></td>
+            <td><a th:href="@{/editEntry/{id}(id=${entry.id})}">Edit</a> </td>
         </tr>
     </table>
 

@@ -27,7 +27,7 @@ public class JournalShowController {
     private final UserService userService;
 
     @ModelAttribute("users")
-    public List<User> getUsers() { return  userService.findAll(); }
+    public List<User> getUsers() { return userService.findAll(); }
 
     @ModelAttribute("journal")
     public Journal getJournal(@PathVariable("id") Long id) {

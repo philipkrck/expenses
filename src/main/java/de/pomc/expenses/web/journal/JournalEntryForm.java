@@ -1,7 +1,9 @@
 package de.pomc.expenses.web.journal;
 
+import de.pomc.expenses.journal.JournalEntry;
 import de.pomc.expenses.user.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Digits;
@@ -12,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
 @Getter
 @Setter
 public class JournalEntryForm {
@@ -34,5 +37,12 @@ public class JournalEntryForm {
             debitors = new HashSet<>();
         }
         return debitors;
+    }
+
+    public JournalEntryForm(JournalEntry entry) {
+        this.creditor = entry.getCreditor();
+        this.description = entry.getDescription();
+        this.amount = entry.getAmount();
+        this.debitors = entry.getDebitors();
     }
 }
